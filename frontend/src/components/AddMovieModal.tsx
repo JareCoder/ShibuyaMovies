@@ -34,9 +34,18 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElemen
     });
 };
 
+
 const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     onSubmit({ ...movieData, postedBy: userId, });
+
+    setMovieData({
+        title: '',
+        year: '',
+        description: '',
+        poster: '',
+        type: '',
+    });
 };
 
   return (
