@@ -73,3 +73,13 @@
 .thumbs-button:hover{
   background-color: #0a4b7c;
 }
+
+.thumbs-button.liked{
+  background-color: #085a15;
+  border-color: #085a15;
+}
+
+.thumbs-button.disliked{
+  background-color: #7c0a0a;
+  border-color: #7c0a0a;
+}

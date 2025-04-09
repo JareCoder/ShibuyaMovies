@@ -54,12 +54,20 @@ const MovieCard = ({ movie, onUpdate, onDelete }: MovieCardProps) => {
       <p>{movie.type}</p>
       <p>{movie.description}</p>
       <div className="votes">
-        <button className="thumbs-button" aria-label="thumbs up" onClick={handleThumbsUp}>
+        <button 
+          className={`thumbs-button ${movie.likedBy && movie.likedBy.includes(userId) ? "liked" : ""}`} 
+          aria-label="thumbs up" 
+          onClick={handleThumbsUp}
+        >
           <span role="img" aria-label="thumbs up">
             👍 {movie.thumbsUp}
           </span>
         </button>
-        <button className="thumbs-button" aria-label="thumbs down" onClick={handleThumbsDown}>
+        <button 
+          className={`thumbs-button ${movie.dislikedBy && movie.dislikedBy.includes(userId) ? "disliked" : ""}`} 
+          aria-label="thumbs down"
+          onClick={handleThumbsDown}
+        >
           <span role="img" aria-label="thumbs down">
            👎 {movie.thumbsDown}
           </span>
