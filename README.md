@@ -2,10 +2,12 @@
 A simple React Vite app to help us vote for movie night suggestions. Self hosted in Oracle could through Nginx.
 
 Main view:
+
 ![image](https://github.com/user-attachments/assets/20db941f-c021-4e0e-b39c-ff1f996616d3)
 
 
 Add Movie:
+
 ![image](https://github.com/user-attachments/assets/7c51302f-b3e1-40ea-95f6-9047ae82eeed)
 
 
