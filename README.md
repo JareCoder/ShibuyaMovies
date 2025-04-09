@@ -1,5 +1,5 @@
 ﻿# ShibuyaMovies
-A simple React Vite app with a Node backend to help us vote for movie night suggestions. Self hosted in Oracle could through Nginx.
+A simple React Vite app with a Node backend to help us vote for movie night suggestions. Self hosted in Oracle cloud through Nginx.
 
 Users ids are generated into cookies. Why? I don't want to hassle with a proper account / user management, but still wanted to monitor who can delete what posts and how likes and dislikes are calculated. Random generated ID in cookies is good enough for that!
 
