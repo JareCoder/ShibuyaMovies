@@ -2,6 +2,7 @@
 export interface Movie {
   id?: string;
   title: string;
+  postedBy: string;
   poster?: string;
   year?: number;
   description?: string;

@@ -12,6 +12,24 @@ export const GetMovies: RequestHandler = async (_req: Request, res: Response): P
   }
 };
 
+export const GetMovieById: RequestHandler = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const movie = await Movie.findOne({ where: { id } });
+    
+    if (!movie) {
+      res.status(404).json({ error: 'Movie to get not found' });
+      return;
+    }
+
+    res.json(movie);
+  }
+  catch (error) {
+    console.error("Error fetching movie by ID:", error);
+    res.status(500).json({ error: 'Database error occurred' });
+  }
+};
+
 export const CreateMovie: RequestHandler = async (req: Request, res: Response) => {
   try {
     const newMovie = req.body;
@@ -36,7 +54,7 @@ export const DeleteMovie: RequestHandler = async (req: Request, res: Response) =
 
     const deletedMovie = await Movie.destroy({ where: { id } });
     if (!deletedMovie) {
-      res.status(404).json({ error: 'Movie not found' });
+      res.status(404).json({ error: 'Movie to delete not found' });
       return;
     }
 

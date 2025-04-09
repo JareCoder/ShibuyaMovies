@@ -5,8 +5,9 @@ import MoviesListService from "../services/MoviesListService";
 interface MovieCardProps {
   movie: Movie;
   onUpdate: (updatedMovie: Movie) => void;
+  onDelete?: (movieId: string) => void;
 }
-const MovieCard = ({ movie, onUpdate }: MovieCardProps) => {
+const MovieCard = ({ movie, onUpdate, onDelete }: MovieCardProps) => {
   const { userId } = useUser();
 
 
@@ -28,6 +29,23 @@ const MovieCard = ({ movie, onUpdate }: MovieCardProps) => {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      if (movie.id) {
+        await MoviesListService.deleteMovie(movie.id, userId);
+        onDelete?.(movie.id);
+      } else {
+        console.error("Movie ID is undefined. Cannot delete movie.");
+      }
+
+      if (onDelete) {
+        onDelete(movie.id || '');
+      }
+    } catch (error) {
+      console.error("Error deleting movie:", error);
+    }
+  }
+
   return (
     <div className="movie-card">
       <img src={movie.poster} alt={movie.title} />
@@ -47,6 +65,11 @@ const MovieCard = ({ movie, onUpdate }: MovieCardProps) => {
           </span>
         </button>
       </div>
+      {userId === movie.postedBy && (
+        <button className="delete-button" onClick={handleDelete}>
+          Delete
+        </button>
+      )}
     </div>
   );
 };

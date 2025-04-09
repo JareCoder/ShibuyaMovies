@@ -1,9 +1,11 @@
 import express from 'express';
-import { GetMovies, CreateMovie, DeleteMovie, UpdateMovie } from '../controllers/movieController';
+import { GetMovies, GetMovieById, CreateMovie, DeleteMovie, UpdateMovie } from '../controllers/movieController';
 
 const moviesRoutes = express.Router();
 
 moviesRoutes.get('/', GetMovies);
+
+moviesRoutes.get('/:id', GetMovieById);
 
 moviesRoutes.post('/', CreateMovie);
 

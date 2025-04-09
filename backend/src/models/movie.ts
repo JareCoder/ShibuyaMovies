@@ -4,6 +4,7 @@ import database from '../config/dbConfig';
 interface MovieAttributes {
     id: string;
     title: string;
+    postedBy: string;
     poster?: string;
     year?: number;
     description?: string;
@@ -17,6 +18,7 @@ interface MovieAttributes {
 class Movie extends Model<MovieAttributes> implements MovieAttributes {
     declare id: string;
     declare title: string;
+    declare postedBy: string;
     declare poster?: string;
     declare year?: number;
     declare description?: string;
@@ -36,6 +38,10 @@ Movie.init(
         },
         title: {
             type: DataTypes.STRING,
+            allowNull: false,
+        },
+        postedBy: {
+            type: DataTypes.UUID,
             allowNull: false,
         },
         poster: {

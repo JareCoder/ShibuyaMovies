@@ -65,7 +65,7 @@ function App() {
           <AddMovieModal 
             isOpen={isOpen} 
             onSubmit={(movie) => {
-              postMovie({ ...movie,  year: Number(movie.year) })
+              postMovie({ ...movie, year: Number(movie.year) })
               setIsOpen(false)
             }} />
       </div>
@@ -75,9 +75,13 @@ function App() {
         reverse={reverse}
         onUpdate={(updatedMovie) => {
           setMovieList((prevMovies) =>
-            prevMovies.map((movie) => (movie.id === updatedMovie.id ? updatedMovie : movie))
-          );
-        }} 
+            prevMovies.map((movie) => (movie.id === updatedMovie.id ? updatedMovie : movie)));
+          }
+        }
+        onDelete={(movieId) => {
+          setMovieList((prevMovies) => prevMovies.filter((movie) => movie.id !== movieId));
+          }
+        }
       />
     </UserProvider>
   )

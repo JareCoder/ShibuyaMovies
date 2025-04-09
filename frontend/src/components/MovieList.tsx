@@ -6,9 +6,10 @@ interface MovieListProps {
     sortBy?: string;
     reverse?: boolean;
     onUpdate: (updatedMovie: Movie) => void;
+    onDelete: (movieId: string) => void;
 }
 
-const MovieList = ({ movieList, sortBy, reverse, onUpdate }: MovieListProps) => {
+const MovieList = ({ movieList, sortBy, reverse, onUpdate, onDelete }: MovieListProps) => {
 
     const sortedMovieList =  movieList.sort((a, b) => {
         switch (sortBy) {
@@ -38,6 +39,7 @@ const MovieList = ({ movieList, sortBy, reverse, onUpdate }: MovieListProps) => 
                 key={movie.id}
                 movie={movie}
                 onUpdate={onUpdate}
+                onDelete={onDelete}
             />
         ))}
         </div>

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import type { Movie } from '../types/types';
+
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 const getMovies = async () => {
@@ -15,14 +16,14 @@ const getMovies = async () => {
   }
 };
 
-const addMovie = async (movie: Movie) => {
+const addMovie = async (movieData: Movie) => {
   try {
     if (!BASE_URL) {
         throw new Error('BASE_URL is not defined');
       }
 
-    movie = {
-      ...movie,
+    const movie = {
+      ...movieData,
       thumbsUp: 0,
       thumbsDown: 0,
       likedBy: [],
@@ -52,12 +53,21 @@ const updateMovie = async (id: string, updates: Partial<Movie>, userId: string):
   }
 }
 
-const deleteMovie = async (id: string) => {
+const deleteMovie = async (id: string, userId: string) => {
   try {
     if (!BASE_URL) {
         throw new Error('BASE_URL is not defined');
       }
-    await axios.delete(`${BASE_URL}/${id}`);
+
+      const movieResponse = await axios.get(`${BASE_URL}/${id}`);
+      const movie = movieResponse.data;
+      
+      if (movie.postedBy !== userId) {
+        throw new Error('You are not authorized to delete this movie');
+      } else {
+        await axios.delete(`${BASE_URL}/${id}`);
+      }
+
   } catch (error) {
     console.error('Error deleting movie:', error);
     throw error;

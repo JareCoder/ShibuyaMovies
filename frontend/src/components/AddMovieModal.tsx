@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { useUser } from "../services/UserContext";
 import '../style/AddMovieModal.css';
 
 interface AddMovieModalProps {
   isOpen: boolean;
   onSubmit: (movieData: {
     title: string;
+    postedBy: string;
     year: string;
     description: string;
     poster: string;
@@ -13,6 +15,7 @@ interface AddMovieModalProps {
 }
 
 const AddMovieModal = ({ isOpen, onSubmit }: AddMovieModalProps) => {
+  const { userId } = useUser();
   const [movieData, setMovieData] = useState({
     title: '',
     year: '',
@@ -32,7 +35,7 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElemen
 
 const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    onSubmit(movieData);
+    onSubmit({ ...movieData, postedBy: userId, });
 };
 
   return (
