@@ -12,9 +12,10 @@ interface AddMovieModalProps {
     poster: string;
     type: string;
   }) => void;
+  onClose: () => void;
 }
 
-const AddMovieModal = ({ isOpen, onSubmit }: AddMovieModalProps) => {
+const AddMovieModal = ({ isOpen, onSubmit, onClose }: AddMovieModalProps) => {
   const { userId } = useUser();
   const [movieData, setMovieData] = useState({
     title: '',
@@ -41,7 +42,7 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-        <button className="modal-close-button">
+        <button className="modal-close-button" onClick={onClose}>
           &times;
         </button>
         <h2>Add a New Movie</h2>

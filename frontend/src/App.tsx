@@ -67,7 +67,9 @@ function App() {
             onSubmit={(movie) => {
               postMovie({ ...movie, year: Number(movie.year) })
               setIsOpen(false)
-            }} />
+            }}
+            onClose={() => setIsOpen(false)} 
+          />
       </div>
       <MovieList 
         movieList={movieList} 
