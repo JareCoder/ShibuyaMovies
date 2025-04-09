@@ -9,7 +9,7 @@ interface MovieCardProps {
 }
 const MovieCard = ({ movie, onUpdate, onDelete }: MovieCardProps) => {
   const { userId } = useUser();
-
+  const VITE_POSTER_URL = import.meta.env.VITE_POSTER_URL || '';
 
   const handleThumbsUp = async () => {
     try {
@@ -48,7 +48,7 @@ const MovieCard = ({ movie, onUpdate, onDelete }: MovieCardProps) => {
 
   return (
     <div className="movie-card">
-      <img src={movie.poster} alt={movie.title} />
+      <img className="movie-poster" src={movie.poster ? movie.poster : VITE_POSTER_URL} alt={movie.title} />
       <h3>{movie.title}</h3>
       <p>{movie.year}</p>
       <p>{movie.type}</p>
