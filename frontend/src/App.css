@@ -19,7 +19,7 @@
 
 .movie-poster {
   width: 600px;
-  height: 400px;
+  height: auto;
   border-radius: 8px;
 }
 
@@ -88,4 +88,17 @@
 .thumbs-button.disliked{
   background-color: #7c0a0a;
   border-color: #7c0a0a;
+}
+
+.delete-button{
+  background-color: #7c0a0a;
+  color: white;
+  margin: 4px;
+  padding: 8px 14px;
+  border-radius: 16px;
+  cursor: pointer;
+}
+
+.delete-button:hover{
+  background-color: #9c0a0a;
 }
