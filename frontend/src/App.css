@@ -1,0 +1,75 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.movie-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1em;
+  margin: 1em;
+  border-radius: 8px;
+  background-color: #2b2b2b;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.navbar {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding: 0px 14px;
+  background-color: #353535;
+  color: white;
+  gap: 1em;
+  border-radius: 32px;
+}
+
+.sort-container {
+  display: flex; 
+  justify-content: left;
+  align-items: center;;
+  gap: 8px;
+}
+
+.add-movie-button {
+  padding: 4px 10px;
+  border: rounded;
+  border-radius: 16px;
+  background-color: #222222;
+  color: white;
+  cursor: pointer;
+  height: 40px;
+  margin-left: auto;
+}
+
+.sort-button {
+  padding: 4px 10px;
+  border: rounded;
+  border-radius: 16px;
+  background-color: #340944;
+  color: white;
+  cursor: pointer;
+  height: 40px;
+}
+
+.sort-button:hover {
+  background-color: #5a2b6c;
+}
+
+.reverse-button{
+  background-color: #126407;
+}
+
+.thumbs-button{
+  background-color: #082454;
+  margin: 0px 4px;
+  padding: 8px 14px;
+}
+
+.thumbs-button:hover{
+  background-color: #0a4b7c;
+}
