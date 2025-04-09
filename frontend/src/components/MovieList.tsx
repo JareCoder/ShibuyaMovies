@@ -34,14 +34,18 @@ const MovieList = ({ movieList, sortBy, reverse, onUpdate, onDelete }: MovieList
 
     return (
         <div>
-        {sortedMovieList.map((movie) => (
-            <MovieCard
-                key={movie.id}
-                movie={movie}
-                onUpdate={onUpdate}
-                onDelete={onDelete}
-            />
-        ))}
+            {sortedMovieList.length === 0 ? (
+                <h2>No movies yet. Add the first one!</h2>
+            ) : (   
+                sortedMovieList.map((movie) => (
+                    <MovieCard
+                        key={movie.id}
+                        movie={movie}
+                        onUpdate={onUpdate}
+                        onDelete={onDelete}
+                    />
+                ))
+            )}
         </div>
     );
 }
