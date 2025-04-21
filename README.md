@@ -13,7 +13,7 @@ Add Movie:
 ![image](https://github.com/user-attachments/assets/7c51302f-b3e1-40ea-95f6-9047ae82eeed)
 
 
-# How to setup
+# How to configure
 Copy the .env-example file and rename it to .env. Fill in values:
 
 - API_PORT: The port the API will be opened to.
@@ -23,3 +23,54 @@ Copy the .env-example file and rename it to .env. Fill in values:
 - VITE_POSTER_URL: A backup poster image URL that is used, if no URL is provided when adding a movie.
 
 In a monorepo setup where frontend and backend are ran in the same environment, only the API_PORT needs to be changed.
+
+# How to setup
+## Frontend
+
+1. **CD to frontend**
+```bash
+cd ./frontend
+```
+
+2. **Install NPM packages**
+```bash
+npm install
+```
+
+3. **Build files**
+```bash
+npm run build
+```
+
+4. **Copy files**
+Copy the static files from the /dist folder to /var/www/your-folder (or where ever they need to be in your setup)
+
+5. **Remember to reference the correct folder in your webserver setup**
+
+## Backend
+
+1. **CD to backend**
+```bash
+cd ./backend
+```
+2. **Install NPM packages**
+```bash
+npm install
+```
+
+3. **Build files**
+```bash
+npm run build
+```
+
+4. **Run with PM2**
+```bash
+pm2 start dist/main.js --name movies-api
+```
+
+5. **Test it out**
+If the backend is not connecting correctly you can check the status of containers and logs with:
+```bash
+pm2 list
+pm2 logs
+```
