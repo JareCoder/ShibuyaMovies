@@ -43,6 +43,7 @@ npm run build
 ```
 
 4. **Copy files**
+
 Copy the static files from the /dist folder to /var/www/your-folder (or where ever they need to be in your setup)
 
 5. **Remember to reference the correct folder in your webserver setup**
@@ -69,6 +70,7 @@ pm2 start dist/main.js --name movies-api
 ```
 
 5. **Test it out**
+
 If the backend is not connecting correctly you can check the status of containers and logs with:
 ```bash
 pm2 list
