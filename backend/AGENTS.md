@@ -19,4 +19,6 @@ This is the backend API for ShibuyaMovies, a simple application to suggest and v
 
 ## Key Patterns
 - **Authentication**: There is no standard user authentication (e.g., JWT, sessions with passwords). Instead, the frontend sends a randomly generated UUID (stored in a cookie) which the backend uses to attribute actions (adding movies, voting, deleting) to a specific "user".
-- **Execution**: During development, the app is run using `tsx` (`npm run dev`). For production, it is compiled using `tsc` (`npm run build`) and typically run with PM2.
+- **Execution**: During development, the app is run using `tsx` (`npm run dev`). For production/deployment, it can be compiled using `tsc` (`npm run build`) and run via PM2, or containerized using the provided Dockerfile and Docker Compose.
+- **Dockerization**: The backend is dockerized via a `Dockerfile` inside the `backend` directory. For deployment, `docker-compose.yml` (in the project root) orchestrates running this container. It automatically reads environment variables from `.env` in the root (matching ports automatically to `API_PORT`) and mounts `movies.db` for persistence.
+

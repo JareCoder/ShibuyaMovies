@@ -1,4 +1,4 @@
-﻿# ShibuyaMovies
+# ShibuyaMovies
 A simple React Vite app with a Node backend to help us vote for movie night suggestions. Self hosted in Oracle cloud through Nginx.
 
 Users ids are generated into cookies. Why? I don't want to hassle with a proper account / user management, but still wanted to monitor who can delete what posts and how likes and dislikes are calculated. Random generated ID in cookies is good enough for that!
@@ -50,6 +50,24 @@ Copy the static files from the /dist folder to /var/www/your-folder (or where ev
 
 ## Backend
 
+### Backend Docker Deployment (Recommended)
+
+You can easily run and manage the backend using Docker Compose. All configuration (ports, volumes, and environment variables) is handled automatically.
+
+From the root directory, simply run:
+
+```bash
+docker compose up -d --build
+```
+
+This command will:
+- Build the backend image.
+- Read your `.env` file and map the ports based on the value of `API_PORT`.
+- Mount the SQLite database (`movies.db`) for persistence.
+
+
+### Manual Backend Deployment
+
 1. **CD to backend**
 ```bash
 cd ./backend
@@ -76,3 +94,4 @@ If the backend is not connecting correctly you can check the status of container
 pm2 list
 pm2 logs
 ```
+

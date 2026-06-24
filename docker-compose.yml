@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "${API_PORT}:${API_PORT}"
+    env_file:
+      - .env
+    volumes:
+      - ./movies.db:/app/movies.db
+    restart: unless-stopped
