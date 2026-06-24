@@ -32,11 +32,22 @@ export const GetMovieById: RequestHandler = async (req: Request, res: Response) 
 
 export const CreateMovie: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const newMovie = req.body;
+    const newMovie = { ...req.body };
     
     // Validate input - ensure title exists
     if (!newMovie.title) {
       res.status(400).json({ error: 'Title is required' });
+      return;
+    }
+
+    // Strip link if ALLOW_LINKS is not 'true'
+    if (process.env.ALLOW_LINKS !== 'true') {
+      delete newMovie.link;
+    }
+
+    // Strip trailer if ALLOW_TRAILERS is 'false'
+    if (process.env.ALLOW_TRAILERS === 'false') {
+      delete newMovie.trailer;
     }
     
     const createdMovie = await Movie.create(newMovie);
