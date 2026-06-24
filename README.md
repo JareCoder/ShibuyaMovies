@@ -5,12 +5,14 @@ Users ids are generated into cookies. Why? I don't want to hassle with a proper 
 
 Main view:
 
-![image](https://github.com/user-attachments/assets/20db941f-c021-4e0e-b39c-ff1f996616d3)
+<img width="1349" height="891" alt="image" src="https://github.com/user-attachments/assets/2c4a8140-259e-4176-8791-8318cebe4388" />
+
 
 
 Add Movie:
 
-![image](https://github.com/user-attachments/assets/7c51302f-b3e1-40ea-95f6-9047ae82eeed)
+<img width="631" height="831" alt="image" src="https://github.com/user-attachments/assets/658973de-03da-4305-9e7c-7f982d565543" />
+
 
 
 # How to configure
