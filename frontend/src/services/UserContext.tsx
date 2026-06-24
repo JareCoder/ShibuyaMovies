@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
+import React, { createContext, useState, useContext, ReactNode } from 'react';
 import Cookies from 'js-cookie';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -11,9 +11,7 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 
 
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [userId, setUserId] = useState<string>('');
-
-  const resolveUserId = () => {
+  const [userId, setUserId] = useState<string>(() => {
     let existingUserId = Cookies.get('userId');
 
     if (!existingUserId){
@@ -21,12 +19,8 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         Cookies.set('userId', existingUserId, { expires: 365 });
     }
 
-    setUserId(existingUserId);
-  };
-
-  useEffect(() =>{
-    resolveUserId();
-  }, [])
+    return existingUserId;
+  });
   
   return (
     <UserContext.Provider value={{ userId, setUserId }}>

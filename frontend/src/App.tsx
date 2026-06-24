@@ -5,6 +5,7 @@ import { Movie } from './types/types'
 import moviesService from './services/MoviesListService'
 import AddMovieModal from './components/AddMovieModal'
 import PasswordModal from './components/PasswordModal'
+import axios from 'axios'
 import './App.css'
 
 function App() {
@@ -16,13 +17,14 @@ function App() {
       setMovieList(movies)
       setShowPasswordModal(false)
       setPasswordError('')
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error fetching movies:', error)
       setMovieList([])
-      if (error.response?.status === 401) {
+      if (axios.isAxiosError(error) && error.response?.status === 401) {
         localStorage.removeItem('app_password')
         setShowPasswordModal(true)
-        if (error.response?.data?.error === 'Incorrect password') {
+        const errorData = error.response?.data as { error?: string } | undefined
+        if (errorData?.error === 'Incorrect password') {
           setPasswordError('Decryption key is incorrect. Decryption failed.')
         } else {
           setPasswordError('')
@@ -57,10 +59,10 @@ function App() {
       setMovieList(movies)
       setShowPasswordModal(false)
       setPasswordError('')
-    } catch (error: any) {
+    } catch (error) {
       console.error('Decryption failed:', error)
       localStorage.removeItem('app_password')
-      if (error.response?.status === 401) {
+      if (axios.isAxiosError(error) && error.response?.status === 401) {
         setPasswordError('Decryption key is incorrect. Decryption failed.')
       } else {
         setPasswordError('Decryption failed. Please try again.')
