@@ -5,10 +5,11 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '../', '')
   const port = env.API_PORT || '3000'
   const root = env.API_ROOT || '/movies'
+  const siteTitle = env.SITE_TITLE || 'Jemlap Movies';
 
   return {
     envDir: '../',
-    envPrefix: ['VITE_', 'ALLOW_LINKS', 'ALLOW_TRAILERS'],
+    envPrefix: ['VITE_', 'ALLOW_LINKS', 'ALLOW_TRAILERS', 'SITE_TITLE'],
     plugins: [react()],
     server: {
       proxy: {

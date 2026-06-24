@@ -70,6 +70,9 @@ function App() {
 
   useEffect(() => {
     fetchMovies()
+    if (import.meta.env.SITE_TITLE) {
+      document.title = import.meta.env.SITE_TITLE;
+    }
   }, [])
 
   return (
@@ -77,15 +80,15 @@ function App() {
       <div className="app-container">
         <header className="main-header sticky-header">
           <div className="header-top-row">
-            <h1 className="header-title">Shibuya Movies</h1>
-            
+            <h1 className="header-title">{import.meta.env.SITE_TITLE || 'Jemlap Movies'}</h1>
+
             {/* Desktop-only Controls: Search, Sort Trigger Button, Add Movie */}
             <div className="desktop-controls desktop-only">
               <div className="search-bar-container">
-                <input 
-                  type="text" 
-                  className="search-input" 
-                  placeholder="Search movies..." 
+                <input
+                  type="text"
+                  className="search-input"
+                  placeholder="Search movies..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -102,8 +105,8 @@ function App() {
 
             {/* Mobile-only Actions */}
             <div className="mobile-actions mobile-only">
-              <button 
-                className={`hamburger-button ${isMenuOpen ? 'open' : ''}`} 
+              <button
+                className={`hamburger-button ${isMenuOpen ? 'open' : ''}`}
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 aria-label="Toggle menu"
               >
@@ -118,10 +121,10 @@ function App() {
           <div className={`nav-menu ${(isSortOpen || isMenuOpen) ? 'open' : ''} ${isMenuOpen ? 'mobile-expanded' : ''} ${isSortOpen ? 'desktop-expanded' : ''}`}>
             {/* Mobile-only Search Bar */}
             <div className="search-bar-container mobile-only">
-              <input 
-                type="text" 
-                className="search-input" 
-                placeholder="Search movies..." 
+              <input
+                type="text"
+                className="search-input"
+                placeholder="Search movies..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />

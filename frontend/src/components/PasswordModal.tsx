@@ -26,7 +26,7 @@ const PasswordModal = ({ isOpen, onSubmit, errorMsg }: PasswordModalProps) => {
           <h3>ACCESS RESTRICTED</h3>
         </div>
         <p className="pwd-description">
-          A secure connection is required. Please enter the decryption key to access the Shibuya Movies database.
+          A secure connection is required. Please enter the decryption key to access the {import.meta.env.SITE_TITLE || 'Jemlap Movies'} database.
         </p>
         <form onSubmit={handleSubmit}>
           <div className="pwd-input-group">
