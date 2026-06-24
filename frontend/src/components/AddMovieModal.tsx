@@ -11,18 +11,21 @@ interface AddMovieModalProps {
     description: string;
     poster: string;
     type: string;
+    link?: string;
   }) => void;
   onClose: () => void;
 }
 
 const AddMovieModal = ({ isOpen, onSubmit, onClose }: AddMovieModalProps) => {
   const { userId } = useUser();
+  const allowLinks = import.meta.env.ALLOW_LINKS === 'true';
   const [movieData, setMovieData] = useState({
     title: '',
     year: '',
     description: '',
     poster: '',
     type: '',
+    link: '',
   });
 
   if (!isOpen) return null;
@@ -37,7 +40,12 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElemen
 
 const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    onSubmit({ ...movieData, postedBy: userId, });
+    // Exclude link from submit if ALLOW_LINKS is false
+    const submissionData = allowLinks 
+      ? { ...movieData, postedBy: userId }
+      : { ...movieData, postedBy: userId, link: undefined };
+      
+    onSubmit(submissionData);
 
     setMovieData({
         title: '',
@@ -45,6 +53,7 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         description: '',
         poster: '',
         type: '',
+        link: '',
     });
 };
 
@@ -103,6 +112,18 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
               required
             />
           </div>
+          {allowLinks && (
+            <div>
+              <label>Watch Link (Optional):</label>
+              <input
+                type="url"
+                name="link"
+                placeholder="https://example.com/watch"
+                value={movieData.link}
+                onChange={handleChange}
+              />
+            </div>
+          )}
           <button type="submit">Add Movie</button>
         </form>
       </div>

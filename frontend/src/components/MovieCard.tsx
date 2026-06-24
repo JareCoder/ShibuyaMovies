@@ -10,6 +10,7 @@ interface MovieCardProps {
 const MovieCard = ({ movie, onUpdate, onDelete }: MovieCardProps) => {
   const { userId } = useUser();
   const VITE_POSTER_URL = import.meta.env.VITE_POSTER_URL || '';
+  const allowLinks = import.meta.env.ALLOW_LINKS === 'true';
 
   const handleThumbsUp = async () => {
     try {
@@ -61,6 +62,17 @@ const MovieCard = ({ movie, onUpdate, onDelete }: MovieCardProps) => {
         
         <h3>{movie.title}</h3>
         <p className="movie-description">{movie.description}</p>
+        
+        {allowLinks && movie.link && (
+          <a 
+            href={movie.link} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="watch-movie-button"
+          >
+            Watch Movie
+          </a>
+        )}
         
         <div className="movie-actions">
           <div className="votes">

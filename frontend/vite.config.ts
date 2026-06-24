@@ -8,6 +8,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     envDir: '../',
+    envPrefix: ['VITE_', 'ALLOW_LINKS'],
     plugins: [react()],
     server: {
       proxy: {

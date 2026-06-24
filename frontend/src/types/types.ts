@@ -11,4 +11,5 @@ export interface Movie {
   thumbsDown?: number;
   likedBy?: string[];
   dislikedBy?: string[];
+  link?: string;
 }

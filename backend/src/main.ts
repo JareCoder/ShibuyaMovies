@@ -22,7 +22,7 @@ app
   .use(API_ROOT, movieRoutes)
   .use(express.static('dist'));
 
-database.sync()
+database.sync({ alter: true })
   .then(() => {
     console.log('Database connected');
     app.listen(PORT, () => {

@@ -13,6 +13,7 @@ interface MovieAttributes {
     thumbsDown: number;
     likedBy: string[];
     dislikedBy: string[];
+    link?: string;
 }
 
 class Movie extends Model<MovieAttributes> implements MovieAttributes {
@@ -27,6 +28,7 @@ class Movie extends Model<MovieAttributes> implements MovieAttributes {
     declare thumbsDown: number;
     declare likedBy: string[];
     declare dislikedBy: string[];
+    declare link?: string;
 }
 
 Movie.init(
@@ -71,6 +73,10 @@ Movie.init(
         dislikedBy: {
             type: DataTypes.JSON,
             defaultValue: [],
+        },
+        link: {
+            type: DataTypes.STRING,
+            allowNull: true,
         },
     },
     {
