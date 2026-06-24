@@ -12,6 +12,7 @@ interface AddMovieModalProps {
     poster: string;
     type: string;
     link?: string;
+    trailer?: string;
   }) => void;
   onClose: () => void;
 }
@@ -19,6 +20,7 @@ interface AddMovieModalProps {
 const AddMovieModal = ({ isOpen, onSubmit, onClose }: AddMovieModalProps) => {
   const { userId } = useUser();
   const allowLinks = import.meta.env.ALLOW_LINKS === 'true';
+  const allowTrailers = import.meta.env.ALLOW_TRAILERS !== 'false';
   const [movieData, setMovieData] = useState({
     title: '',
     year: '',
@@ -26,6 +28,7 @@ const AddMovieModal = ({ isOpen, onSubmit, onClose }: AddMovieModalProps) => {
     poster: '',
     type: '',
     link: '',
+    trailer: '',
   });
 
   if (!isOpen) return null;
@@ -40,10 +43,13 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElemen
 
 const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    // Exclude link from submit if ALLOW_LINKS is false
-    const submissionData = allowLinks 
-      ? { ...movieData, postedBy: userId }
-      : { ...movieData, postedBy: userId, link: undefined };
+    // Exclude link/trailer from submit if disabled
+    const submissionData = {
+      ...movieData,
+      postedBy: userId,
+      link: allowLinks ? movieData.link : undefined,
+      trailer: allowTrailers ? movieData.trailer : undefined,
+    };
       
     onSubmit(submissionData);
 
@@ -54,6 +60,7 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         poster: '',
         type: '',
         link: '',
+        trailer: '',
     });
 };
 
@@ -120,6 +127,18 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
                 name="link"
                 placeholder="https://example.com/watch"
                 value={movieData.link}
+                onChange={handleChange}
+              />
+            </div>
+          )}
+          {allowTrailers && (
+            <div>
+              <label>Watch Trailer (Optional):</label>
+              <input
+                type="url"
+                name="trailer"
+                placeholder="https://example.com/trailer"
+                value={movieData.trailer}
                 onChange={handleChange}
               />
             </div>

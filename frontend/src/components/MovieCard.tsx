@@ -11,6 +11,7 @@ const MovieCard = ({ movie, onUpdate, onDelete }: MovieCardProps) => {
   const { userId } = useUser();
   const VITE_POSTER_URL = import.meta.env.VITE_POSTER_URL || '';
   const allowLinks = import.meta.env.ALLOW_LINKS === 'true';
+  const allowTrailers = import.meta.env.ALLOW_TRAILERS !== 'false';
 
   const handleThumbsUp = async () => {
     try {
@@ -63,6 +64,17 @@ const MovieCard = ({ movie, onUpdate, onDelete }: MovieCardProps) => {
         <h3>{movie.title}</h3>
         <p className="movie-description">{movie.description}</p>
         
+        {allowTrailers && movie.trailer && (
+          <a 
+            href={movie.trailer} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="watch-trailer-button"
+          >
+            Watch Trailer
+          </a>
+        )}
+
         {allowLinks && movie.link && (
           <a 
             href={movie.link} 

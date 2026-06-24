@@ -14,6 +14,7 @@ interface MovieAttributes {
     likedBy: string[];
     dislikedBy: string[];
     link?: string;
+    trailer?: string;
 }
 
 class Movie extends Model<MovieAttributes> implements MovieAttributes {
@@ -29,6 +30,7 @@ class Movie extends Model<MovieAttributes> implements MovieAttributes {
     declare likedBy: string[];
     declare dislikedBy: string[];
     declare link?: string;
+    declare trailer?: string;
 }
 
 Movie.init(
@@ -75,6 +77,10 @@ Movie.init(
             defaultValue: [],
         },
         link: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        trailer: {
             type: DataTypes.STRING,
             allowNull: true,
         },

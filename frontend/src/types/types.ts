@@ -12,4 +12,5 @@ export interface Movie {
   likedBy?: string[];
   dislikedBy?: string[];
   link?: string;
+  trailer?: string;
 }
