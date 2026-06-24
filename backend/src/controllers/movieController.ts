@@ -95,6 +95,10 @@ export const UpdateMovie: RequestHandler = async (req: Request, res: Response) =
           thumbsDownCount -= 1;
           dislikedBy = dislikedBy.filter(u => u !== userId);
         }
+      } else {
+        // Toggle off the like if it was already liked
+        thumbsUpCount = Math.max(0, thumbsUpCount - 1);
+        likedBy = likedBy.filter(u => u !== userId);
       }
     }
 
@@ -107,6 +111,10 @@ export const UpdateMovie: RequestHandler = async (req: Request, res: Response) =
           thumbsUpCount -= 1;
           likedBy = likedBy.filter(u => u !== userId);
         }
+      } else {
+        // Toggle off the dislike if it was already disliked
+        thumbsDownCount = Math.max(0, thumbsDownCount - 1);
+        dislikedBy = dislikedBy.filter(u => u !== userId);
       }
     }
 
