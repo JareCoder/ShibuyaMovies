@@ -4,6 +4,7 @@ import MovieList from './components/MovieList'
 import { Movie } from './types/types'
 import moviesService from './services/MoviesListService'
 import AddMovieModal from './components/AddMovieModal'
+import PasswordModal from './components/PasswordModal'
 import './App.css'
 
 function App() {
@@ -13,9 +14,20 @@ function App() {
       const movies = await moviesService.getMovies()
       console.log('Fetched movies:', movies)
       setMovieList(movies)
-    } catch (error) {
+      setShowPasswordModal(false)
+      setPasswordError('')
+    } catch (error: any) {
       console.error('Error fetching movies:', error)
       setMovieList([])
+      if (error.response?.status === 401) {
+        localStorage.removeItem('app_password')
+        setShowPasswordModal(true)
+        if (error.response?.data?.error === 'Incorrect password') {
+          setPasswordError('Decryption key is incorrect. Decryption failed.')
+        } else {
+          setPasswordError('')
+        }
+      }
     }
   }
 
@@ -35,6 +47,26 @@ function App() {
   const [isSortOpen, setIsSortOpen] = useState<boolean>(false)
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
+  const [showPasswordModal, setShowPasswordModal] = useState<boolean>(false)
+  const [passwordError, setPasswordError] = useState<string>('')
+
+  const handlePasswordSubmit = async (password: string) => {
+    localStorage.setItem('app_password', password)
+    try {
+      const movies = await moviesService.getMovies()
+      setMovieList(movies)
+      setShowPasswordModal(false)
+      setPasswordError('')
+    } catch (error: any) {
+      console.error('Decryption failed:', error)
+      localStorage.removeItem('app_password')
+      if (error.response?.status === 401) {
+        setPasswordError('Decryption key is incorrect. Decryption failed.')
+      } else {
+        setPasswordError('Decryption failed. Please try again.')
+      }
+    }
+  }
 
   useEffect(() => {
     fetchMovies()
@@ -131,6 +163,12 @@ function App() {
             setIsOpen(false)
           }}
           onClose={() => setIsOpen(false)}
+        />
+
+        <PasswordModal
+          isOpen={showPasswordModal}
+          onSubmit={handlePasswordSubmit}
+          errorMsg={passwordError}
         />
 
         <MovieList

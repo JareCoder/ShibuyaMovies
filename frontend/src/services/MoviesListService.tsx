@@ -3,12 +3,17 @@ import type { Movie } from '../types/types';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
+const getHeaders = () => {
+  const password = localStorage.getItem('app_password');
+  return password ? { headers: { 'X-App-Password': password } } : {};
+};
+
 const getMovies = async () => {
   try {
     if (!BASE_URL) {
       throw new Error('BASE_URL is not defined');
     }
-    const response = await axios.get(BASE_URL);
+    const response = await axios.get(BASE_URL, getHeaders());
     return response.data;
   } catch (error) {
     console.error('Error fetching movies:', error);
@@ -19,8 +24,8 @@ const getMovies = async () => {
 const addMovie = async (movieData: Movie) => {
   try {
     if (!BASE_URL) {
-        throw new Error('BASE_URL is not defined');
-      }
+      throw new Error('BASE_URL is not defined');
+    }
 
     const movie = {
       ...movieData,
@@ -30,7 +35,7 @@ const addMovie = async (movieData: Movie) => {
       dislikedBy: []
     };
 
-    const response = await axios.post(BASE_URL, movie);
+    const response = await axios.post(BASE_URL, movie, getHeaders());
     return response.data;
   } catch (error) {
     console.error('Error adding movie:', error);
@@ -41,32 +46,32 @@ const addMovie = async (movieData: Movie) => {
 const updateMovie = async (id: string, updates: Partial<Movie>, userId: string): Promise<Movie> => {
   try {
     if (!BASE_URL) {
-        throw new Error('BASE_URL is not defined');
-      }
+      throw new Error('BASE_URL is not defined');
+    }
 
     const updatesWithUserId = { ...updates, userId };
-    const response = await axios.patch(`${BASE_URL}/${id}`, updatesWithUserId);
+    const response = await axios.patch(`${BASE_URL}/${id}`, updatesWithUserId, getHeaders());
     return response.data;
   } catch (error) {
     console.error('Error updating movie:', error);
     throw error;
   }
-}
+};
 
 const deleteMovie = async (id: string, userId: string) => {
   try {
     if (!BASE_URL) {
-        throw new Error('BASE_URL is not defined');
-      }
+      throw new Error('BASE_URL is not defined');
+    }
 
-      const movieResponse = await axios.get(`${BASE_URL}/${id}`);
-      const movie = movieResponse.data;
-      
-      if (movie.postedBy !== userId) {
-        throw new Error('You are not authorized to delete this movie');
-      } else {
-        await axios.delete(`${BASE_URL}/${id}`);
-      }
+    const movieResponse = await axios.get(`${BASE_URL}/${id}`, getHeaders());
+    const movie = movieResponse.data;
+
+    if (movie.postedBy !== userId) {
+      throw new Error('You are not authorized to delete this movie');
+    } else {
+      await axios.delete(`${BASE_URL}/${id}`, getHeaders());
+    }
 
   } catch (error) {
     console.error('Error deleting movie:', error);
@@ -75,8 +80,8 @@ const deleteMovie = async (id: string, userId: string) => {
 };
 
 export default {
-    getMovies,
-    addMovie,
-    updateMovie,
-    deleteMovie,
+  getMovies,
+  addMovie,
+  updateMovie,
+  deleteMovie,
 };
