@@ -32,6 +32,9 @@ function App() {
   const [sortBy, setSortBy] = useState<string>('likes')
   const [reverse, setReverse] = useState<boolean>(false)
   const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [isSortOpen, setIsSortOpen] = useState<boolean>(false)
+  const [searchQuery, setSearchQuery] = useState<string>('')
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
 
   useEffect(() => {
     fetchMovies()
@@ -39,52 +42,111 @@ function App() {
 
   return (
     <UserProvider>
-      <h1>Movie List</h1>
-      <div className="navbar">
-        <h2>Sort by:</h2>
-        <div className="sort-container">  
-          <button className="sort-button" onClick={() => setSortBy('likes')}>
-            Likes
-          </button>
-          <button className="sort-button" onClick={() => setSortBy('alphabetical')}>
-            Alphabetical
-          </button>
-          <button className="sort-button" onClick={() => setSortBy('year')}>
-            Year
-          </button>
-          <button 
-            className="sort-button reverse-button" 
-            style={{ backgroundColor: reverse ? '#580606' : '#126407' }}
-            onClick={() => setReverse(!reverse)}>
-            Reverse
-          </button>
-        </div>
-          <button className="add-movie-button" onClick={() => setIsOpen(true)}>
-            Add Movie
-          </button>
-          <AddMovieModal 
-            isOpen={isOpen} 
-            onSubmit={(movie) => {
-              postMovie({ ...movie, year: Number(movie.year) })
-              setIsOpen(false)
-            }}
-            onClose={() => setIsOpen(false)} 
-          />
+      <div className="app-container">
+        <header className="main-header sticky-header">
+          <div className="header-top-row">
+            <h1 className="header-title">Shibuya Movies</h1>
+            
+            {/* Desktop-only Controls: Search, Sort Trigger Button, Add Movie */}
+            <div className="desktop-controls desktop-only">
+              <div className="search-bar-container">
+                <input 
+                  type="text" 
+                  className="search-input" 
+                  placeholder="Search movies..." 
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+
+              <button className={`sort-trigger-button ${isSortOpen ? 'active' : ''}`} onClick={() => setIsSortOpen(!isSortOpen)}>
+                Sort
+              </button>
+
+              <button className="add-movie-button" onClick={() => setIsOpen(true)}>
+                Add Movie
+              </button>
+            </div>
+
+            {/* Mobile-only Actions */}
+            <div className="mobile-actions mobile-only">
+              <button 
+                className={`hamburger-button ${isMenuOpen ? 'open' : ''}`} 
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                aria-label="Toggle menu"
+              >
+                <span></span>
+                <span></span>
+                <span></span>
+              </button>
+            </div>
+          </div>
+
+          {/* Collapsible Section (for PC Sort options OR Mobile Hamburger menu) */}
+          <div className={`nav-menu ${(isSortOpen || isMenuOpen) ? 'open' : ''} ${isMenuOpen ? 'mobile-expanded' : ''} ${isSortOpen ? 'desktop-expanded' : ''}`}>
+            {/* Mobile-only Search Bar */}
+            <div className="search-bar-container mobile-only">
+              <input 
+                type="text" 
+                className="search-input" 
+                placeholder="Search movies..." 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+
+            {/* Sorting Section */}
+            <div className="sort-section">
+              <h2>Sort by:</h2>
+              <div className="sort-container">
+                <button className={`sort-button ${sortBy === 'likes' ? 'active' : ''}`} onClick={() => setSortBy('likes')}>
+                  Likes
+                </button>
+                <button className={`sort-button ${sortBy === 'alphabetical' ? 'active' : ''}`} onClick={() => setSortBy('alphabetical')}>
+                  Alphabetical
+                </button>
+                <button className={`sort-button ${sortBy === 'year' ? 'active' : ''}`} onClick={() => setSortBy('year')}>
+                  Year
+                </button>
+                <button
+                  className="sort-button reverse-button"
+                  style={{ backgroundColor: reverse ? 'rgba(255, 49, 49, 0.15)' : 'rgba(57, 255, 20, 0.15)', borderColor: reverse ? 'var(--neon-red)' : 'var(--neon-green)', color: reverse ? 'var(--neon-red)' : 'var(--neon-green)' }}
+                  onClick={() => setReverse(!reverse)}>
+                  Reverse
+                </button>
+              </div>
+            </div>
+
+            {/* Mobile-only Add Movie button inside mobile menu */}
+            <button className="add-movie-button mobile-only" onClick={() => { setIsOpen(true); setIsMenuOpen(false); }}>
+              Add Movie
+            </button>
+          </div>
+        </header>
+
+        <AddMovieModal
+          isOpen={isOpen}
+          onSubmit={(movie) => {
+            postMovie({ ...movie, year: Number(movie.year) })
+            setIsOpen(false)
+          }}
+          onClose={() => setIsOpen(false)}
+        />
+
+        <MovieList
+          movieList={movieList}
+          sortBy={sortBy}
+          reverse={reverse}
+          searchQuery={searchQuery}
+          onUpdate={(updatedMovie) => {
+            setMovieList((prevMovies) =>
+              prevMovies.map((movie) => (movie.id === updatedMovie.id ? updatedMovie : movie)));
+          }}
+          onDelete={(movieId) => {
+            setMovieList((prevMovies) => prevMovies.filter((movie) => movie.id !== movieId));
+          }}
+        />
       </div>
-      <MovieList 
-        movieList={movieList} 
-        sortBy={sortBy} 
-        reverse={reverse}
-        onUpdate={(updatedMovie) => {
-          setMovieList((prevMovies) =>
-            prevMovies.map((movie) => (movie.id === updatedMovie.id ? updatedMovie : movie)));
-          }
-        }
-        onDelete={(movieId) => {
-          setMovieList((prevMovies) => prevMovies.filter((movie) => movie.id !== movieId));
-          }
-        }
-      />
     </UserProvider>
   )
 }

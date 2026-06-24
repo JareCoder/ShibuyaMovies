@@ -48,36 +48,45 @@ const MovieCard = ({ movie, onUpdate, onDelete }: MovieCardProps) => {
 
   return (
     <div className="movie-card">
-      <img className="movie-poster" src={movie.poster ? movie.poster : VITE_POSTER_URL} alt={movie.title} />
-      <h3>{movie.title}</h3>
-      <p>{movie.year}</p>
-      <p>{movie.type}</p>
-      <p>{movie.description}</p>
-      <div className="votes">
-        <button 
-          className={`thumbs-button ${movie.likedBy && movie.likedBy.includes(userId) ? "liked" : ""}`} 
-          aria-label="thumbs up" 
-          onClick={handleThumbsUp}
-        >
-          <span role="img" aria-label="thumbs up">
-            👍 {movie.thumbsUp}
-          </span>
-        </button>
-        <button 
-          className={`thumbs-button ${movie.dislikedBy && movie.dislikedBy.includes(userId) ? "disliked" : ""}`} 
-          aria-label="thumbs down"
-          onClick={handleThumbsDown}
-        >
-          <span role="img" aria-label="thumbs down">
-           👎 {movie.thumbsDown}
-          </span>
-        </button>
+      <div className="movie-poster-container">
+        <img className="movie-poster" src={movie.poster ? movie.poster : VITE_POSTER_URL} alt={movie.title} />
+        <div className="movie-poster-overlay"></div>
       </div>
-      {userId === movie.postedBy && (
-        <button className="delete-button" onClick={handleDelete}>
-          Delete
-        </button>
-      )}
+      
+      <div className="movie-info">
+        <div className="movie-badge-list">
+          <span className="movie-badge year">{movie.year}</span>
+          <span className="movie-badge type">{movie.type}</span>
+        </div>
+        
+        <h3>{movie.title}</h3>
+        <p className="movie-description">{movie.description}</p>
+        
+        <div className="movie-actions">
+          <div className="votes">
+            <button 
+              className={`thumbs-button ${movie.likedBy && movie.likedBy.includes(userId) ? "liked" : ""}`} 
+              aria-label="thumbs up" 
+              onClick={handleThumbsUp}
+            >
+              👍 {movie.thumbsUp}
+            </button>
+            <button 
+              className={`thumbs-button ${movie.dislikedBy && movie.dislikedBy.includes(userId) ? "disliked" : ""}`} 
+              aria-label="thumbs down"
+              onClick={handleThumbsDown}
+            >
+              👎 {movie.thumbsDown}
+            </button>
+          </div>
+          
+          {userId === movie.postedBy && (
+            <button className="delete-button" onClick={handleDelete}>
+              Delete
+            </button>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

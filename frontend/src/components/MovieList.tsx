@@ -5,13 +5,27 @@ interface MovieListProps {
     movieList: Movie[];
     sortBy?: string;
     reverse?: boolean;
+    searchQuery?: string;
     onUpdate: (updatedMovie: Movie) => void;
     onDelete: (movieId: string) => void;
 }
 
-const MovieList = ({ movieList, sortBy, reverse, onUpdate, onDelete }: MovieListProps) => {
+const MovieList = ({ movieList, sortBy, reverse, searchQuery = '', onUpdate, onDelete }: MovieListProps) => {
 
-    const sortedMovieList =  movieList.sort((a, b) => {
+    if (!movieList || !Array.isArray(movieList)) {
+        return <h2 className="no-movies-title">No movies found.</h2>;
+    }
+
+    // Filter movies based on search query
+    const filteredMovies = movieList.filter(movie => {
+        const query = searchQuery.toLowerCase().trim();
+        if (!query) return true;
+        const titleMatch = movie.title.toLowerCase().includes(query);
+        const descMatch = movie.description ? movie.description.toLowerCase().includes(query) : false;
+        return titleMatch || descMatch;
+    });
+
+    const sortedMovieList =  [...filteredMovies].sort((a, b) => {
         switch (sortBy) {
             case 'likes': {
                 const aLikes = (a.thumbsUp || 0) - (a.thumbsDown || 0);
@@ -33,9 +47,9 @@ const MovieList = ({ movieList, sortBy, reverse, onUpdate, onDelete }: MovieList
 
 
     return (
-        <div>
+        <div className="movie-grid">
             {sortedMovieList.length === 0 ? (
-                <h2>No movies yet. Add the first one!</h2>
+                <h2 className="no-movies-title">No movies yet. Add the first one!</h2>
             ) : (   
                 sortedMovieList.map((movie) => (
                     <MovieCard
