@@ -21,6 +21,9 @@ Copy the .env-example file and rename it to .env. Fill in values:
 - API_URL: The URL where the API is hosted in.
 - VITE_API_URL: Frontend connects to this. No need to touch.
 - VITE_POSTER_URL: A backup poster image URL that is used, if no URL is provided when adding a movie.
+- ALLOW_LINKS: (Optional) Set to `true` to enable optional watch links for movies.
+- ALLOW_TRAILERS: (Optional) Set to `false` to disable trailer links (enabled by default).
+- APP_PASSWORD: (Optional) Set a password decryption key to restrict access to the movie list and voting database. If left empty/commented out, the system will not request any password.
 
 In a monorepo setup where frontend and backend are ran in the same environment, only the API_PORT needs to be changed.
 
