@@ -66,7 +66,7 @@ docker compose up -d --build
 This command will:
 - Build the backend image.
 - Read your `.env` file and map the ports based on the value of `API_PORT`.
-- Mount the SQLite database (`movies.db`) for persistence.
+- Mount the SQLite database directory (located under `./data` on the host, containing `movies.db`) for persistence.
 
 
 ### Manual Backend Deployment

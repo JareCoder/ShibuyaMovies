@@ -9,6 +9,8 @@ services:
       - "${API_PORT}:${API_PORT}"
     env_file:
       - .env
+    environment:
+      - DATABASE_PATH=/app/data/movies.db
     volumes:
-      - ./movies.db:/app/movies.db
+      - ./data:/app/data
     restart: unless-stopped
